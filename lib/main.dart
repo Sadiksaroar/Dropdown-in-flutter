@@ -1,68 +1,53 @@
 import 'package:flutter/material.dart';
 
-/// Flutter code sample for [DropdownButton.style].
+void main() => runApp(MyApp());
 
-void main() => runApp(const DropdownButtonApp());
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-class DropdownButtonApp extends StatelessWidget {
-  const DropdownButtonApp({super.key});
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String title = "First item";
+  String item2 = "Second item";
+  String item3 = "Third item";
+  String item4 = "4 item";
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('DropdownButton Sample')),
-        body: const DropdownButtonExample(),
-      ),
-    );
-  }
-}
-
-class DropdownButtonExample extends StatefulWidget {
-  const DropdownButtonExample({super.key});
-
-  @override
-  State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
-}
-
-class _DropdownButtonExampleState extends State<DropdownButtonExample> {
-  List<String> options = <String>['One', 'Two', 'Three', 'Four'];
-  String dropdownValue = 'One';
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      color: Colors.blue,
-      child: DropdownButton<String>(
-        value: dropdownValue,
-        onChanged: (String? value) {
-          // This is called when the user selects an item.
-          setState(() {
-            dropdownValue = value!;
-          });
-        },
-        style: const TextStyle(color: Colors.blue),
-        selectedItemBuilder: (BuildContext context) {
-          // This is the widget that will be shown when you select an item.
-          // Here custom text style, alignment and layout size can be applied
-          // to selected item string.
-          return options.map((String value) {
-            return Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                dropdownValue,
-                style: const TextStyle(color: Colors.white),
-              ),
-            );
-          }).toList();
-        },
-        items: options.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
+    return MaterialApp( // Wrap with MaterialApp
+      home: Scaffold( // Scaffold provides Material structure
+        appBar: AppBar(
+          title: Text('Popup Menu Example'),
+        ),
+        body: Material( // Wrap ListTile with Material widget
+          child: ListTile(
+            title: Text(title),
+            trailing: PopupMenuButton(
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  child: Text(item2),
+                  value: item2,
+                ),
+                PopupMenuItem(
+                  child: Text(item3),
+                  value: item3,
+                ),
+                PopupMenuItem(
+                  child: Text(item4),
+                  value: item4,
+                )
+              ],
+              onSelected: (String newValue){
+                setState(() {
+                  title = newValue;
+                });
+              },
+            ),
+          ),
+        ),
       ),
     );
   }
